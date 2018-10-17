@@ -11,15 +11,19 @@ class Question {
 	protected $nopo_message = "Ninguna de las anteriores";
 	protected $apo_visible = TRUE; // All previous ones
 
-	public function __construct($description, $right_options, $other_options){
+	public function __construct($description, $right_options, $other_options) {
 		$this->description = $description;
 		$this->right_options = $right_options;
 		$this->other_options = $other_options;
 	}
 
-	public function format(){
+	public function format() {
 		$template = "<div class = 'question'>\n";
 		$template .= "  <div class = 'number'>" . $this->number . "\n";
 		$template .= "  <div class = 'description'>" . $this->description . "\n"; 
+	}
+
+	public function print() {
+
 	}
 }

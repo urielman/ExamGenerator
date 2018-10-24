@@ -1,0 +1,11 @@
+{
+    "require-dev": {
+        "phpunit/phpunit": "^7.1",
+        "satooshi/php-coveralls": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ExamGenerator\\": "src"
+        }
+    }
+}

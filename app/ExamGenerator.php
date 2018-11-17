@@ -6,7 +6,6 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 class ExamGenerator {
-    protected $string = "A\n";
 
     /**
      * Carga las preguntas desde un archivo Yaml y
@@ -25,7 +24,7 @@ class ExamGenerator {
             printf('No se puede convertir el archivo YAML: %s', $exception->getMessage());
         }
         $questions = new Questions();
-        $this->string .= $yml;
+        //$questions = ymlToQuestions($yml);
         return $questions;
     }
 
@@ -34,10 +33,13 @@ class ExamGenerator {
      * tipo Questions.
      *
      * @param Questions $questions
+     * @param string $htmlFile
      *
      * @return string
      */
-    public function saveQuestionsToHtml(Questions $questions) {
+    public function saveQuestionsToHtml(Questions $questions, string $htmlFile) {
+        //$html = questionsToHtml($questions);
+        file_put_contents($htmlFile, $html);
         return $html;
     }
 }

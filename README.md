@@ -1,3 +1,6 @@
+#### Usar ExamGenerator
+Una vez descargado el repositorio, ejecutar `composer install` para instalar las dependencias (como Symfony Yaml). Para visualizar Laravel, hostear el repositorio en un servidor local como puede ser con Xampp, y dirigirse a `./public`, el homepage de ExamGenerator.
+
 #### Objetivo del Trabajo:
 Recrear el sistema del profesor para hacer pruebas desde cero.
 
@@ -15,7 +18,8 @@ Recrear el sistema del profesor para hacer pruebas desde cero.
 - CSS grid -> Para hacer la grilla de la prueba
 
 #### Recordar:
-En ips.dagos.info tenemos el material para empezar y otros recursos.
+- En ips.dagos.info tenemos el material para empezar y otros recursos.
+- La documentacion de Symfony Yaml está en https://symfony.com/doc/current/components/yaml.html
 
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 

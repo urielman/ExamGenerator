@@ -60,13 +60,11 @@ $response->send();
 $kernel->terminate($request, $response);
 
 require_once __DIR__.'/../app/ExamGenerator.php';
+require_once __DIR__.'/../app/Questions.php';
 
-$examGenerator = new ExamGenerator;
+$examGenerator = new Generator\ExamGenerator;
 /*
-$preguntas = $examGenerator->loadQuestionsFromYml(fileToString(__DIR__.'/../resources/preguntas.yml'));
-
-En realidad aca se usaria el Symfony Yml para leer el yml, no se como
-
+$preguntas = $examGenerator->loadQuestionsFromYml(__DIR__.'/../resources/yaml/preguntas.yml');
 $preguntas->mezclar();
 $examenHtml = $examGenerator->saveQuestionsToHtml($preguntas);
 saveFile($examenHtml, __DIR__.'/../resources/views/multiplechoice.php');

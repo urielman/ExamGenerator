@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/welcome', function () {
+Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', function () {
+Route::get('examen', function () {
     return view('multiplechoice');
 });

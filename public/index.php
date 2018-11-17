@@ -58,3 +58,5 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
+
+/* $examGenerator = require_once __DIR__.'/../app/ExamGenerator.php'; */

@@ -18,3 +18,12 @@ Route::get('/', function () {
 Route::get('examen', function () {
     return view('multiplechoice');
 });
+
+Route::get('tema1', function () {
+    return view('tema1');
+});
+
+/* Route::namespace('Generator')->group(function () {
+    // Controllers Within The "App\Http\Controllers\Admin" Namespace
+    return view('tema1');
+}); */

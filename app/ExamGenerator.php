@@ -1,12 +1,14 @@
 <?php
-
+namespace App;
 namespace Generator;
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 class ExamGenerator {
+    protected $ymlFile = "resources\yaml\preguntas.yml";
 
+    protected $preguntas;
     /**
      * Carga las preguntas desde un archivo Yaml y
      * devuelve una instancia de Questions con todas
@@ -23,9 +25,11 @@ class ExamGenerator {
         } catch (ParseException $exception) {
             printf('No se puede convertir el archivo YAML: %s', $exception->getMessage());
         }
+
+        $this->preguntas = $yml;
         $questions = new Questions();
         //$questions = ymlToQuestions($yml);
-        return $questions;
+        return view('tema1', with(['preguntas' => $yml]));
     }
 
     /**

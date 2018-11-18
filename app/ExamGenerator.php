@@ -7,6 +7,12 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 class ExamGenerator {
 
+    protected $questions;
+
+    public function __construct() {
+        $this->questions = new Questions();
+    }
+
     /**
      * Carga las preguntas desde un archivo Yaml y
      * devuelve una instancia de Questions con todas
@@ -14,32 +20,29 @@ class ExamGenerator {
      * se presentan en el archivo.
      *
      * @param string $ymlFile
-     * 
-     * @return Questions
      */
-    public function loadQuestionsFromYml(string $ymlFile) : Questions {
+    public function loadQuestionsFromYml(string $ymlFile) {
         try {
             $yml = Yaml::parseFile($ymlFile);
         } catch (ParseException $exception) {
             printf('No se puede convertir el archivo YAML: %s', $exception->getMessage());
         }
-        $questions = new Questions();
-        //$questions = ymlToQuestions($yml);
-        return $questions;
+        foreach ($yml['preguntas'] as $pregunta) {
+            $this->questions->agregar($pregunta);
+        }
     }
 
     /**
-     * Genera un examen en html desde un objeto de
-     * tipo Questions.
+     * Genera un examen en html desde el objeto de
+     * tipo Questions guardado en el examen.
      *
-     * @param Questions $questions
      * @param string $htmlFile
      *
      * @return string
      */
-    public function saveQuestionsToHtml(Questions $questions, string $htmlFile) {
+    public function saveQuestionsToHtml(string $htmlFile) {
         //$html = questionsToHtml($questions);
-        file_put_contents($htmlFile, $html);
-        return $html;
+        //file_put_contents($htmlFile, $html);
+        //return $html;
     }
 }

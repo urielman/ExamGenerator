@@ -4,10 +4,17 @@ namespace Generator;
 
 class Questions {
 
+    protected $preguntasOriginales = array();
     protected $preguntas = array();
     protected $cantidad = 0;
-    protected $ordenOriginal = array();
-    protected $orden = array();
+    /* protected $ordenOriginal = array();
+    protected $orden = array(); */
+
+    public function vaciar() {
+        $this->preguntasOriginales = array();
+        $this->preguntas = array();
+        $this->cantidad = 0;
+    }
 
     /**
      * Añade una pregunta con sus respuestas.
@@ -19,9 +26,11 @@ class Questions {
             $pregunta['respuestas_correctas'],
             $pregunta['respuestas_incorrectas']
         );
-        array_push($this->preguntas, $pregunta);
+        $pregunta['ocultar_opcion_ninguna_de_las_anteriores'] = !empty($pregunta['ocultar_opcion_ninguna_de_las_anteriores']);
+        $pregunta['ocultar_opcion_todas_las_anteriores'] = !empty($pregunta['ocultar_opcion_todas_las_anteriores']);
+        array_push($this->preguntasOriginales, $pregunta);
 
-        $ordenRespuestas = array();
+        /* $ordenRespuestas = array();
         foreach ($pregunta['respuestas'] as $i => $respuestas) {
             array_push($ordenRespuestas, $i + 1);
         }
@@ -29,8 +38,8 @@ class Questions {
             array_push($ordenRespuestas, $i);
         } */
         ++$this->cantidad;
-        $this->ordenOriginal[$this->cantidad] = $ordenRespuestas;
-        $this->orden[$this->cantidad] = $ordenRespuestas;
+        /* $this->ordenOriginal[$this->cantidad] = $ordenRespuestas;
+        $this->orden[$this->cantidad] = $ordenRespuestas; */
     }
     
     /**
@@ -38,11 +47,26 @@ class Questions {
      * aleatoria.
      */
     public function mezclar() {
-        $ordenNuevo = $this->ordenOriginal;
-        foreach ($ordenNuevo as $ordenRespuestasNuevo) {
-            shuffle($ordenRespuestasNuevo);
+        $preguntasNuevas = $this->preguntasOriginales;
+        foreach ($preguntasNuevas as $pregunta) {
+            shuffle($pregunta['respuestas']);
         }
-        shuffle($ordenNuevo);
-        $this->orden = $ordenNuevo;
+        shuffle($preguntasNuevas);
+        $this->preguntas = $preguntasNuevas;
+    }
+
+    /**
+     * Devuelve el array de las preguntas, por default
+     * mezcladas. Toma como argumento opcional un booleano
+     * que determina si se usa el orden original.
+     *
+     * @param bool $usarPreguntasOriginales
+     *
+     * @return array
+     */
+    public function getPreguntas(bool $usarPreguntasOriginales = false) : array {
+        ($usarPreguntasOriginales) ? $preguntasUsadas = $this->preguntasOriginales : $preguntasUsadas = $this->preguntas;
+        
+        return $preguntasUsadas;
     }
 }

@@ -71,4 +71,11 @@ $examGenerator->loadQuestionsFromYml(__DIR__.'/../resources/yaml/preguntas.yml')
 // a una funcion JavaScript que se ejecute cuando se presione el
 // boton "Generar exámen" del Html, y entonces el JS toma el argumento
 // y hace un getFileByName('multiplechoice').write(examenHtml) ponele
-$examGenerator->saveQuestionsToHtml(__DIR__.'/../resources/views/multiplechoice.php');
+$examGenerator->saveQuestions(
+    __DIR__.'/testing',
+    '.html'
+);
+/* $preguntas = $examGenerator->saveQuestions(
+    __DIR__.'/../resources/views/multiplechoice',
+    '.php'
+); */

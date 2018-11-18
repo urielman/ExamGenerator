@@ -64,13 +64,14 @@ require_once __DIR__.'/../app/Questions.php';
 
 $examGenerator = new Generator\ExamGenerator;
 
-$examGenerator->loadQuestionsFromYml(__DIR__.'/../resources/yaml/preguntas.yml');
+$examGenerator->loadQuestions(__DIR__.'/../resources/yaml/preguntas.yml');
 // $examGenerator->generarTemas(2);
 // $examenHtml = $examGenerator->saveQuestionsToHtml($preguntas);
 // despues esta variable se podria usar para pasarsela como argumento
 // a una funcion JavaScript que se ejecute cuando se presione el
 // boton "Generar exámen" del Html, y entonces el JS toma el argumento
 // y hace un getFileByName('multiplechoice').write(examenHtml) ponele
+$examGenerator->setCantidadTemas(2);
 $examGenerator->saveQuestions(
     __DIR__.'/testing',
     '.html'

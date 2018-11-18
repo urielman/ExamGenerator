@@ -9,10 +9,15 @@ class ExamGenerator {
 
     protected $questions;
     protected $cantidadTemas = 2;
+    protected $nroEvaluacion = 1;
 
     public function __construct() {
         $this->questions = new Questions();
     }
+
+    public function setCantidadTemas(int $cantidadTemas) { $this->cantidadTemas = $cantidadTemas; }
+
+    public function setNroEvaluacion(int $nroEvaluacion) { $this->nroEvaluacion = $nroEvaluacion; }
 
     /**
      * Carga las preguntas desde un archivo Yaml y
@@ -22,7 +27,7 @@ class ExamGenerator {
      *
      * @param string $ymlFile
      */
-    public function loadQuestionsFromYml(string $ymlFile) {
+    public function loadQuestions(string $ymlFile) {
         try {
             $yml = Yaml::parseFile($ymlFile);
         } catch (ParseException $exception) {
@@ -44,79 +49,89 @@ class ExamGenerator {
      * @return string
      */
     public function saveQuestions(string $filePath, string $fileExtension = '.html') {
-        $templateBase = "<!DOCTYPE html>
-<html>
+        $templateBasePreTitulo = "<!DOCTYPE html>\n<html>
     <head>
-        <title>Exam</title>
+        <title>";
+        $templateBasePosTitulo = "</title>
         <meta charset=\"utf-8\">
         <meta name=\"description\" content=\"\">
         <meta name=viewport content=\"width=device-width, initial-scale=1\">
 
         <style>
 
-        .question {
-            border: 1px solid gray;
-            padding: 0.3em;
-        }
+            .question {
+                border: 1px solid gray;
+                padding: 0.3em;
+            }
 
-        .number {
-            float: left;
-            margin-right: 0.5em;
-            font-weight: bold;
-        }
+            .number {
+                float: left;
+                margin-right: 0.5em;
+                font-weight: bold;
+            }
 
-        .options {
-            display: flex;
-            flex-direction: column;
-        }
+            .options {
+                display: flex;
+                flex-direction: column;
+            }
 
-        .short {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 1em;
-        }
+            .short {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 1em;
+            }
 
-        .questions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 1em 1em;
-        }
+            .questions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 1em 1em;
+            }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1em;
-        }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 1em;
+            }
 
-        .description {
-            margin-bottom: 0.5em;
-            font-weight: bold;
-        }
+            .description {
+                margin-bottom: 0.5em;
+                font-weight: bold;
+            }
 
-        body {
-            font-size: 12px;
-        }
+            body {
+                font-size: 12px;
+            }
 
         </style>
     </head>
     <body>
         <div class=\"header\">
-        <strong>Nombre y Apellido _____________________________________________ </strong>
-        <strong>Evaluación número</strong>
-        <strong>TEMA ";
-        for ($i = 1; $i <= $this->cantidadTemas ; ++$i) {
-            $templateTema = "";
-            $templateTema .= "{$i}</strong>
-    </div>
-    <div class=\"questions\">";
+            <strong>Nombre y Apellido _____________________________________________ </strong>
+            <strong>Evaluación número {$this->nroEvaluacion}</strong>
+            <strong>TEMA ";
+        for ($nroTema = 1; $nroTema <= $this->cantidadTemas ; ++$nroTema) {
+            $titulo = "Examen {$this->nroEvaluacion} - Tema {$nroTema}";
+            $tituloProfesor = "P - {$titulo}";
+            $tituloAlumno = "A - {$titulo}";
+
+            $templateTema = "{$nroTema}</strong>\n        </div>\n        <div class=\"questions\">";
+
             $this->questions->mezclar();
             $preguntas = $this->questions->getPreguntas();
-            foreach ($preguntas as $pregunta) {
-                $templateTema .= implode("\n\n", $pregunta['respuestas'] ) . "\n\n\n\n";
+            foreach ($preguntas as $nroPregunta => $pregunta) {
+                $templateTema .= "\n            <div class='question'>";
+                $templateTema .= "\n                <div class='number'>{$nroPregunta})______</div>";
+                $templateTema .= "\n                <div class='description'>{$pregunta['descripcion']}</div>";
+                $templateTema .= "\n                <div class='options short'>";
+                foreach ($pregunta['respuestas'] as $nroRespuesta => $respuesta) {
+                    $templateTema .= "\n                    <div class='option'>{$nroRespuesta}) {$respuesta}</div>";
+                }
+                $templateTema .= "\n                </div>\n            </div>";
             }
+            $cierreTemplate = "\n        </div>\n    </body>\n</html>\n";
             file_put_contents(
-                $filePath . "Tema{$i}" . $fileExtension,
-                $templateBase . $templateTema
+                $filePath . "Tema{$nroTema}" . $fileExtension,
+                $templateBasePreTitulo . $titulo . $templateBasePosTitulo . $templateTema . $cierreTemplate
             );
         }
     }

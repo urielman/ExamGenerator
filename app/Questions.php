@@ -65,7 +65,7 @@ class Questions {
      * @return array
      */
     public function getPreguntas(bool $usarPreguntasOriginales = false) : array {
-        ($usarPreguntasOriginales) ? $preguntasUsadas = $this->preguntasOriginales : $preguntasUsadas = $this->preguntas;
+        $preguntasUsadas = ($usarPreguntasOriginales) ? $this->preguntasOriginales : $this->preguntas;
         
         return $preguntasUsadas;
     }

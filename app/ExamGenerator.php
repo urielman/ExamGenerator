@@ -8,7 +8,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 class ExamGenerator {
 
     protected $questions;
-    protected $cantidadTemas = 2;
+    protected $cantidadTemas = 1;
     protected $nroEvaluacion = 1;
 
     public function __construct() {
@@ -49,10 +49,58 @@ class ExamGenerator {
      * @return string
      */
     public function saveQuestions(string $filePath, string $fileExtension = '.html') {
-        $templateBasePreTitulo = "<!DOCTYPE html>\n<html>
+        for ($nroTema = 1; $nroTema <= $this->cantidadTemas ; ++$nroTema) {
+            $this->questions->mezclar();
+            $preguntas = $this->questions->getPreguntas();
+            $template = $this->template($preguntas, $nroTema, '', $this->nroEvaluacion);
+            file_put_contents(
+                $filePath . "Tema{$nroTema}" . $fileExtension,
+                $template
+            );
+        }
+        ++$this->nroEvaluacion;
+    }
+
+    /**
+     * Devuelve un string, formato HTML, que
+     * es el examen generado a partir de los
+     * parametros dados.
+     *
+     * @param array $preguntas
+     * @param mixed $tema
+     * @param string $modo
+     * @param int $nroEvaluacion
+     *
+     * @return string
+     */
+    private function template(array $preguntas, $tema = NULL, string $modo = '', int $nroEvaluacion = 0) : string {
+        $titulo = ($modo == '') ? "" : "{$modo} - ";
+        $titulo .= ($nroEvaluacion == 0) ? "Examen" : "Examen {$nroEvaluacion}";
+        $titulo .= ($tema == NULL) ? "" : " - Tema {$tema}";
+
+        $evaluacionHeader = "Evaluación" . (($nroEvaluacion == 0) ? "" : " Número {$nroEvaluacion}");
+        $temaHeader = ($tema == NULL) ? "" : "TEMA {$tema}";
+
+        $questions = "";
+        foreach ($preguntas as $nroPregunta => $pregunta) {
+            $answers = "";
+            foreach ($pregunta['respuestas'] as $nroRespuesta => $respuesta) {
+                $answers .= "
+                    <div class=\"option\">{$nroRespuesta}) {$respuesta}</div>";
+            }
+            $question = "
+            <div class=\"question\">
+                <div class=\"number\">{$nroPregunta})______</div>
+                <div class=\"description\">{$pregunta['descripcion']}</div>
+                <div class=\"options short\">{$answers}
+                </div>
+            </div>";
+            $questions .= $question;
+        }
+
+        $template = "<!DOCTYPE html>\n<html>
     <head>
-        <title>";
-        $templateBasePosTitulo = "</title>
+        <title>{$titulo}</title>
         <meta charset=\"utf-8\">
         <meta name=\"description\" content=\"\">
         <meta name=viewport content=\"width=device-width, initial-scale=1\">
@@ -107,32 +155,12 @@ class ExamGenerator {
     <body>
         <div class=\"header\">
             <strong>Nombre y Apellido _____________________________________________ </strong>
-            <strong>Evaluación número {$this->nroEvaluacion}</strong>
-            <strong>TEMA ";
-        for ($nroTema = 1; $nroTema <= $this->cantidadTemas ; ++$nroTema) {
-            $titulo = "Examen {$this->nroEvaluacion} - Tema {$nroTema}";
-            $tituloProfesor = "P - {$titulo}";
-            $tituloAlumno = "A - {$titulo}";
-
-            $templateTema = "{$nroTema}</strong>\n        </div>\n        <div class=\"questions\">";
-
-            $this->questions->mezclar();
-            $preguntas = $this->questions->getPreguntas();
-            foreach ($preguntas as $nroPregunta => $pregunta) {
-                $templateTema .= "\n            <div class='question'>";
-                $templateTema .= "\n                <div class='number'>{$nroPregunta})______</div>";
-                $templateTema .= "\n                <div class='description'>{$pregunta['descripcion']}</div>";
-                $templateTema .= "\n                <div class='options short'>";
-                foreach ($pregunta['respuestas'] as $nroRespuesta => $respuesta) {
-                    $templateTema .= "\n                    <div class='option'>{$nroRespuesta}) {$respuesta}</div>";
-                }
-                $templateTema .= "\n                </div>\n            </div>";
-            }
-            $cierreTemplate = "\n        </div>\n    </body>\n</html>\n";
-            file_put_contents(
-                $filePath . "Tema{$nroTema}" . $fileExtension,
-                $templateBasePreTitulo . $titulo . $templateBasePosTitulo . $templateTema . $cierreTemplate
-            );
-        }
+            <strong>{$evaluacionHeader}</strong>
+            <strong>{$temaHeader}</strong>
+        </div>
+        <div class=\"questions\">{$questions}
+        </div>
+    </body>\n</html>\n";
+        return $template;
     }
 }

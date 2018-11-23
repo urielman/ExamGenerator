@@ -105,14 +105,16 @@ class ExamGenerator {
         }
         else {
             foreach ($preguntas as $nroPregunta => $pregunta) {
+                $nroPreguntaDesde1 = $nroPregunta + 1;
                 $answers = "";
                 foreach ($pregunta['respuestas'] as $nroRespuesta => $respuesta) {
+
                     $answers .= "
                         <div class=\"option\">{$nroRespuesta}) {$respuesta}</div>";
                 }
                 $question = "
                 <div class=\"question\">
-                    <div class=\"number\">{$nroPregunta})______</div>
+                    <div class=\"number\">{$nroPreguntaDesde1})______</div>
                     <div class=\"description\">{$pregunta['descripcion']}</div>
                     <div class=\"options short\">{$answers}
                     </div>

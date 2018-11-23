@@ -70,12 +70,42 @@ class ExamGenerator {
                 $filePathOriginales . "/Tema{$nroTema}" . $fileExtension,
                 $this->template($preguntas, $nroTema, $this->nroEvaluacion)
             ); */
+
+            file_put_contents(
+                $filePathExamenes . "/RespuestasTema{$nroTema}" . $fileExtension,
+                $this->template($preguntas, $nroTema, $this->nroEvaluacion, 'Respuestas')
+            );
             file_put_contents(
                 $filePathExamenes . "/Tema{$nroTema}" . $fileExtension,
                 $this->template($preguntas, $nroTema, $this->nroEvaluacion, 'Examen')
             );
         }
         ++$this->nroEvaluacion;
+    }
+
+    /**
+     * Devuelve si la respuesta esta en la lista de respuestas correctas. 
+     * Si no hay respuestas correctas, devuelve "ninguna es correcta".
+     * Si no hay respuestas incorrectas, devuelve "todas son correctas".
+     *
+     * @param array $preguntas
+     * @param string $respuesta
+     * @return string
+     */
+    private function esCorrecta($preguntas, $respuesta = ""){
+        if(empty($preguntas['respuestas_correctas'])){
+            return "ninguna es correcta";
+        }
+
+        if(empty($preguntas['respuestas_incorrectas'])){
+            return "todas son correctas";
+        }
+
+        if(in_array($respuesta, $preguntas['respuestas_correctas'])){
+            return "correcta";
+        }
+
+        return FALSE;
     }
 
     /**
@@ -93,49 +123,78 @@ class ExamGenerator {
     private function template(array $preguntas, $tema = NULL, int $nroEvaluacion = 0, string $modo = '') : string {
         $esOriginal = !in_array($modo, ['E', 'examen', 'Examen', 'A', 'alumno', 'Alumno']);
         $titulo = ($nroEvaluacion == 0) ? "Examen" : "Examen {$nroEvaluacion}";
-        $titulo .= ($esOriginal) ? " - Original" : " - Alumno";
+        $titulo .= ($esOriginal) ? " - Respuestas" : " - Alumno";
         $titulo .= ($tema == NULL) ? "" : " - Tema {$tema}";
+
         $ningunaDeLasAnteriores = "Ninguna de las anteriores.";
         $todasLasAnteriores = "Todas las anteriores.";
-    
         $evaluacionHeader = "Evaluación" . (($nroEvaluacion == 0) ? "" : " Número {$nroEvaluacion}");
         $temaHeader = ($tema == NULL) ? "" : "TEMA {$tema}";
-
+        $class = "";
         $questions = "";
-        if ($esOriginal) {
-            // TODO
-        }
-        else {
-            foreach ($preguntas as $nroPregunta => $pregunta) {
-                $nroPreguntaDesde1 = $nroPregunta + 1;
-                $answers = "";
-                foreach ($pregunta['respuestas'] as $nroRespuesta => $respuesta) {
-                    $letraRespuesta = chr(ord('a')+$nroRespuesta);
-                    $answers .= "
-                        <div class=\"option\">{$letraRespuesta}) {$respuesta}</div>";
+
+        foreach ($preguntas as $nroPregunta => $pregunta) {
+            $nroPreguntaDesde1 = $nroPregunta + 1;
+            $answers = "";
+            foreach ($pregunta['respuestas'] as $nroRespuesta => $respuesta) {
+
+                if($modo == "Respuestas"){
+                    $esCorrecta = $this->esCorrecta($pregunta, $respuesta);
+                    if($esCorrecta == "correcta"){
+                        $class = " respuestaCorrecta";
+                    }
+                    else{
+                        $class = "";
+                    }
                 }
-                if (empty($pregunta['ocultar_opcion_todas_las_anteriores'])){
-                    $nroRespuesta++;
-                    $letraRespuesta = chr(ord('a')+$nroRespuesta);
-                    $answers .= "
-                        <div class=\"option\">{$letraRespuesta}) {$todasLasAnteriores}</div>";
-                }
-                if (empty($pregunta['ocultar_opcion_ninguna_de_las_anteriores'])){
-                    $nroRespuesta++;
-                    $letraRespuesta = chr(ord('a')+$nroRespuesta);
-                    $answers .= "
-                        <div class=\"option\">{$letraRespuesta}) {$ningunaDeLasAnteriores}</div>";
-                }
-                $question = "
-                    <div class=\"question\">
-                        <div class=\"number\">{$nroPreguntaDesde1})______</div>
-                        <div class=\"description\">{$pregunta['descripcion']}</div>
-                        <div class=\"options short\">{$answers}
-                        </div>
-                    </div>";
-                $questions .= $question;
+
+                $letraRespuesta = chr(ord('a')+$nroRespuesta);
+                $answers .= "
+                    <div class=\"option{$class}\">{$letraRespuesta}) {$respuesta}</div>";
             }
+
+            if (empty($pregunta['ocultar_opcion_todas_las_anteriores'])){
+                if($modo == "Respuestas"){
+                    $esCorrecta = $this->esCorrecta($pregunta);
+                    if($esCorrecta == "todas son correctas"){
+                        $class = " respuestaCorrecta";
+                    }
+                    else{
+                        $class = "";
+                    }
+                }
+                $nroRespuesta++;
+                $letraRespuesta = chr(ord('a')+$nroRespuesta);
+                $answers .= "
+                    <div class=\"option{$class}\">{$letraRespuesta}) {$todasLasAnteriores}</div>";
+            }
+
+            if (empty($pregunta['ocultar_opcion_ninguna_de_las_anteriores'])){
+                if($modo == "Respuestas"){
+                    $esCorrecta = $this->esCorrecta($pregunta);
+                    if($esCorrecta == "ninguna es correcta"){
+                        $class = " respuestaCorrecta";
+                    }
+                    else{
+                        $class = "";
+                    }
+                }
+                $nroRespuesta++;
+                $letraRespuesta = chr(ord('a')+$nroRespuesta);
+                $answers .= "
+                    <div class=\"option{$class}\">{$letraRespuesta}) {$ningunaDeLasAnteriores}</div>";
+            }
+
+            $question = "
+                <div class=\"question\">
+                    <div class=\"number\">{$nroPreguntaDesde1})______</div>
+                    <div class=\"description\">{$pregunta['descripcion']}</div>
+                    <div class=\"options short\">{$answers}
+                    </div>
+                </div>";
+            $questions .= $question;
         }
+        
         return "<!DOCTYPE html>\n<html>
     <head>
         <title>{$titulo}</title>
@@ -186,6 +245,10 @@ class ExamGenerator {
 
             body {
                 font-size: 12px;
+            }
+
+            .respuestaCorrecta {
+                text-decoration: underline;
             }
 
         </style>

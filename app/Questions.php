@@ -7,8 +7,7 @@ class Questions {
     protected $preguntasOriginales = array();
     protected $preguntas = array();
     protected $cantidad = 0;
-    protected $ningunaDeLasAnteriores = "Ninguna de las anteriores.";
-    protected $todasLasAnteriores = "Todas las anteriores.";
+
 
     /* protected $ordenOriginal = array();
     protected $orden = array(); */
@@ -29,12 +28,8 @@ class Questions {
             $pregunta['respuestas_correctas'],
             $pregunta['respuestas_incorrectas']
         );
-        if (empty($pregunta['ocultar_opcion_todas_las_anteriores'])){
-            array_push($pregunta['respuestas'], $this->todasLasAnteriores);
-        }
-        if (empty($pregunta['ocultar_opcion_ninguna_de_las_anteriores'])){
-            array_push($pregunta['respuestas'], $this->ningunaDeLasAnteriores);
-        }
+        $pregunta['ocultar_opcion_ninguna_de_las_anteriores'] = !empty($pregunta['ocultar_opcion_ninguna_de_las_anteriores']);
+        $pregunta['ocultar_opcion_todas_las_anteriores'] = !empty($pregunta['ocultar_opcion_todas_las_anteriores']);
         array_push($this->preguntasOriginales, $pregunta);
 
         /* $ordenRespuestas = array();
@@ -55,9 +50,11 @@ class Questions {
      */
     public function mezclar() {
         $preguntasNuevas = $this->preguntasOriginales;
-        foreach ($preguntasNuevas as $pregunta) {
+        foreach ($preguntasNuevas as &$pregunta) {
             shuffle($pregunta['respuestas']);
         }
+        unset($pregunta);   //elimino la referencia.
+
         shuffle($preguntasNuevas);
         $this->preguntas = $preguntasNuevas;
     }

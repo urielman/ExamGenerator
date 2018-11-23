@@ -95,7 +95,9 @@ class ExamGenerator {
         $titulo = ($nroEvaluacion == 0) ? "Examen" : "Examen {$nroEvaluacion}";
         $titulo .= ($esOriginal) ? " - Original" : " - Alumno";
         $titulo .= ($tema == NULL) ? "" : " - Tema {$tema}";
-
+        $ningunaDeLasAnteriores = "Ninguna de las anteriores.";
+        $todasLasAnteriores = "Todas las anteriores.";
+    
         $evaluacionHeader = "Evaluación" . (($nroEvaluacion == 0) ? "" : " Número {$nroEvaluacion}");
         $temaHeader = ($tema == NULL) ? "" : "TEMA {$tema}";
 
@@ -112,13 +114,23 @@ class ExamGenerator {
                     $answers .= "
                         <div class=\"option\">{$nroRespuesta}) {$respuesta}</div>";
                 }
+                if (empty($pregunta['ocultar_opcion_todas_las_anteriores'])){
+                    $nroRespuesta++;
+                    $answers .= "
+                        <div class=\"option\">{$nroRespuesta}) {$todasLasAnteriores}</div>";
+                }
+                if (empty($pregunta['ocultar_opcion_ninguna_de_las_anteriores'])){
+                    $nroRespuesta++;
+                    $answers .= "
+                        <div class=\"option\">{$nroRespuesta}) {$ningunaDeLasAnteriores}</div>";
+                }
                 $question = "
-                <div class=\"question\">
-                    <div class=\"number\">{$nroPreguntaDesde1})______</div>
-                    <div class=\"description\">{$pregunta['descripcion']}</div>
-                    <div class=\"options short\">{$answers}
-                    </div>
-                </div>";
+                    <div class=\"question\">
+                        <div class=\"number\">{$nroPreguntaDesde1})______</div>
+                        <div class=\"description\">{$pregunta['descripcion']}</div>
+                        <div class=\"options short\">{$answers}
+                        </div>
+                    </div>";
                 $questions .= $question;
             }
         }

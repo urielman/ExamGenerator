@@ -10,6 +10,7 @@ class ExamGenerator {
     protected $questions;
     protected $cantidadTemas = 1;
     protected $nroEvaluacion = 1;
+    protected $cantidadDePreguntas = -1;
 
     public function __construct() {
         $this->questions = new Questions();
@@ -18,6 +19,8 @@ class ExamGenerator {
     public function setCantidadTemas(int $cantidadTemas) { $this->cantidadTemas = $cantidadTemas; }
 
     public function setNroEvaluacion(int $nroEvaluacion) { $this->nroEvaluacion = $nroEvaluacion; }
+
+    public function setCantidadDePreguntas(int $cantidadDePreguntas) { $this->cantidadDePreguntas = $cantidadDePreguntas; }
 
     /**
      * Carga las preguntas desde un archivo Yaml y
@@ -73,11 +76,11 @@ class ExamGenerator {
 
             file_put_contents(
                 $filePathExamenes . "/RespuestasTema{$nroTema}" . $fileExtension,
-                $this->template($preguntas, $nroTema, $this->nroEvaluacion, 'Respuestas')
+                $this->template($preguntas, $nroTema, $this->nroEvaluacion, 'Respuestas', $this->cantidadDePreguntas)
             );
             file_put_contents(
                 $filePathExamenes . "/Tema{$nroTema}" . $fileExtension,
-                $this->template($preguntas, $nroTema, $this->nroEvaluacion, 'Examen')
+                $this->template($preguntas, $nroTema, $this->nroEvaluacion, 'Examen', $this->cantidadDePreguntas)
             );
         }
         ++$this->nroEvaluacion;
@@ -120,7 +123,7 @@ class ExamGenerator {
      *
      * @return string
      */
-    private function template(array $preguntas, $tema = NULL, int $nroEvaluacion = 0, string $modo = '') : string {
+    private function template(array $preguntas, $tema = NULL, int $nroEvaluacion = 0, string $modo = '', $cantidadDePreguntas) : string {
         $esOriginal = !in_array($modo, ['E', 'examen', 'Examen', 'A', 'alumno', 'Alumno']);
         $titulo = ($nroEvaluacion == 0) ? "Examen" : "Examen {$nroEvaluacion}";
         $titulo .= ($esOriginal) ? " - Respuestas" : " - Alumno";
@@ -133,13 +136,15 @@ class ExamGenerator {
         $class = "";
         $questions = "";
 
-        foreach ($preguntas as $nroPregunta => $pregunta) {
+        //se escriben la cantidad de preguntas $cantidadDePreguntas hasta que no ya haya mas disponibles.
+        for($nroPregunta = 0; ($nroPregunta < $cantidadDePreguntas || $cantidadDePreguntas == -1) && isset($preguntas[$nroPregunta]); $nroPregunta++) {
+            
             $nroPreguntaDesde1 = $nroPregunta + 1;
             $answers = "";
-            foreach ($pregunta['respuestas'] as $nroRespuesta => $respuesta) {
+            foreach ($preguntas[$nroPregunta]['respuestas'] as $nroRespuesta => $respuesta) {
 
                 if($modo == "Respuestas"){
-                    $esCorrecta = $this->esCorrecta($pregunta, $respuesta);
+                    $esCorrecta = $this->esCorrecta($preguntas[$nroPregunta], $respuesta);
                     if($esCorrecta == "correcta"){
                         $class = " respuestaCorrecta";
                     }
@@ -153,9 +158,9 @@ class ExamGenerator {
                     <div class=\"option{$class}\">{$letraRespuesta}) {$respuesta}</div>";
             }
 
-            if (empty($pregunta['ocultar_opcion_todas_las_anteriores'])){
+            if (empty($preguntas[$nroPregunta]['ocultar_opcion_todas_las_anteriores'])){
                 if($modo == "Respuestas"){
-                    $esCorrecta = $this->esCorrecta($pregunta);
+                    $esCorrecta = $this->esCorrecta($preguntas[$nroPregunta]);
                     if($esCorrecta == "todas son correctas"){
                         $class = " respuestaCorrecta";
                     }
@@ -169,9 +174,9 @@ class ExamGenerator {
                     <div class=\"option{$class}\">{$letraRespuesta}) {$todasLasAnteriores}</div>";
             }
 
-            if (empty($pregunta['ocultar_opcion_ninguna_de_las_anteriores'])){
+            if (empty($preguntas[$nroPregunta]['ocultar_opcion_ninguna_de_las_anteriores'])){
                 if($modo == "Respuestas"){
-                    $esCorrecta = $this->esCorrecta($pregunta);
+                    $esCorrecta = $this->esCorrecta($preguntas[$nroPregunta]);
                     if($esCorrecta == "ninguna es correcta"){
                         $class = " respuestaCorrecta";
                     }
@@ -188,7 +193,7 @@ class ExamGenerator {
             $question = "
                 <div class=\"question\">
                     <div class=\"number\">{$nroPreguntaDesde1})______</div>
-                    <div class=\"description\">{$pregunta['descripcion']}</div>
+                    <div class=\"description\">{$preguntas[$nroPregunta]['descripcion']}</div>
                     <div class=\"options short\">{$answers}
                     </div>
                 </div>";

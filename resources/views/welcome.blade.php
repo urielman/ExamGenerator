@@ -96,6 +96,11 @@
                             <label for="example-number-input" >Cantidad de preguntas:</label>
                             <input class="form-control" type="number" value="10" name="preguntas" id="example-number-input">
                         </div>
+                        <div class="form-group">
+                            <label for="exampleInputFile">Ingrese el archivo:</label>
+                            <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                            <small id="fileHelp" class="form-text text-muted">El archivo debe tener la extension .yml, conteniendo las preguntas del Examen.</small>
+                        </div>
                         <button type="submit" class="btn btn-primary">Generar Examenes</button>
                     </form>
                  <!--   <button onClick="">Generar exámen</button>  -->
@@ -112,11 +117,9 @@
     
                     $examGenerator->loadQuestions(__DIR__.'/../../../resources/yaml/preguntas.yml');
                     
-                    // despues esta variable se podria usar para pasarsela como argumento
-                    // a una funcion JavaScript que se ejecute cuando se presione el
-                    // boton "Generar exámen" del Html, y entonces el JS toma el argumento
-                    // y hace un getFileByName('multiplechoice').write(examenHtml) ponele
                     $examGenerator->setCantidadTemas($_GET['temas']);
+                    $examGenerator->setCantidadDePreguntas($_GET['preguntas']);
+
                     $examGenerator->saveQuestions(
                         __DIR__.'/../../../public/testing',
                         '.html'

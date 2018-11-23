@@ -49,13 +49,30 @@ class ExamGenerator {
      * @return string
      */
     public function saveQuestions(string $filePath, string $fileExtension = '.html') {
+        /* if (is_dir($filePath . '/originales')) {
+            // borrar contenido de la carpeta (por si hay examenes viejos)
+        }
+        else {
+            mkdir($filePath . '/originales', 0777, true);
+        } */
+        if (is_dir($filePath . '/examenes')) {
+            // borrar contenido de la carpeta (por si hay examenes viejos)
+        }
+        else {
+            mkdir($filePath . '/examenes', 0777, true);
+        }
+        $filePathOriginales = $filePath . '/originales';
+        $filePathExamenes = $filePath . '/examenes';
         for ($nroTema = 1; $nroTema <= $this->cantidadTemas ; ++$nroTema) {
             $this->questions->mezclar();
             $preguntas = $this->questions->getPreguntas();
-            $template = $this->template($preguntas, $nroTema, '', $this->nroEvaluacion);
+            /* file_put_contents(
+                $filePathOriginales . "/Tema{$nroTema}" . $fileExtension,
+                $this->template($preguntas, $nroTema, $this->nroEvaluacion)
+            ); */
             file_put_contents(
-                $filePath . "Tema{$nroTema}" . $fileExtension,
-                $template
+                $filePathExamenes . "/Tema{$nroTema}" . $fileExtension,
+                $this->template($preguntas, $nroTema, $this->nroEvaluacion, 'Examen')
             );
         }
         ++$this->nroEvaluacion;
@@ -73,32 +90,37 @@ class ExamGenerator {
      *
      * @return string
      */
-    private function template(array $preguntas, $tema = NULL, string $modo = '', int $nroEvaluacion = 0) : string {
-        $titulo = ($modo == '') ? "" : "{$modo} - ";
-        $titulo .= ($nroEvaluacion == 0) ? "Examen" : "Examen {$nroEvaluacion}";
+    private function template(array $preguntas, $tema = NULL, int $nroEvaluacion = 0, string $modo = '') : string {
+        $esOriginal = !in_array($modo, ['E', 'examen', 'Examen', 'A', 'alumno', 'Alumno']);
+        $titulo = ($nroEvaluacion == 0) ? "Examen" : "Examen {$nroEvaluacion}";
+        $titulo .= ($esOriginal) ? " - Original" : " - Alumno";
         $titulo .= ($tema == NULL) ? "" : " - Tema {$tema}";
 
         $evaluacionHeader = "Evaluación" . (($nroEvaluacion == 0) ? "" : " Número {$nroEvaluacion}");
         $temaHeader = ($tema == NULL) ? "" : "TEMA {$tema}";
 
         $questions = "";
-        foreach ($preguntas as $nroPregunta => $pregunta) {
-            $answers = "";
-            foreach ($pregunta['respuestas'] as $nroRespuesta => $respuesta) {
-                $answers .= "
-                    <div class=\"option\">{$nroRespuesta}) {$respuesta}</div>";
-            }
-            $question = "
-            <div class=\"question\">
-                <div class=\"number\">{$nroPregunta})______</div>
-                <div class=\"description\">{$pregunta['descripcion']}</div>
-                <div class=\"options short\">{$answers}
-                </div>
-            </div>";
-            $questions .= $question;
+        if ($esOriginal) {
+            // TODO
         }
-
-        $template = "<!DOCTYPE html>\n<html>
+        else {
+            foreach ($preguntas as $nroPregunta => $pregunta) {
+                $answers = "";
+                foreach ($pregunta['respuestas'] as $nroRespuesta => $respuesta) {
+                    $answers .= "
+                        <div class=\"option\">{$nroRespuesta}) {$respuesta}</div>";
+                }
+                $question = "
+                <div class=\"question\">
+                    <div class=\"number\">{$nroPregunta})______</div>
+                    <div class=\"description\">{$pregunta['descripcion']}</div>
+                    <div class=\"options short\">{$answers}
+                    </div>
+                </div>";
+                $questions .= $question;
+            }
+        }
+        return "<!DOCTYPE html>\n<html>
     <head>
         <title>{$titulo}</title>
         <meta charset=\"utf-8\">
@@ -161,6 +183,5 @@ class ExamGenerator {
         <div class=\"questions\">{$questions}
         </div>
     </body>\n</html>\n";
-        return $template;
     }
 }

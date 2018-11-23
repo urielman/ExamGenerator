@@ -7,6 +7,9 @@ class Questions {
     protected $preguntasOriginales = array();
     protected $preguntas = array();
     protected $cantidad = 0;
+    protected $ningunaDeLasAnteriores = "Ninguna de las anteriores.";
+    protected $todasLasAnteriores = "Todas las anteriores.";
+
     /* protected $ordenOriginal = array();
     protected $orden = array(); */
 
@@ -26,8 +29,12 @@ class Questions {
             $pregunta['respuestas_correctas'],
             $pregunta['respuestas_incorrectas']
         );
-        $pregunta['ocultar_opcion_ninguna_de_las_anteriores'] = !empty($pregunta['ocultar_opcion_ninguna_de_las_anteriores']);
-        $pregunta['ocultar_opcion_todas_las_anteriores'] = !empty($pregunta['ocultar_opcion_todas_las_anteriores']);
+        if (empty($pregunta['ocultar_opcion_todas_las_anteriores'])){
+            array_push($pregunta['respuestas'], $this->todasLasAnteriores);
+        }
+        if (empty($pregunta['ocultar_opcion_ninguna_de_las_anteriores'])){
+            array_push($pregunta['respuestas'], $this->ningunaDeLasAnteriores);
+        }
         array_push($this->preguntasOriginales, $pregunta);
 
         /* $ordenRespuestas = array();

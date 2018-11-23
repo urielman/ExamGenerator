@@ -160,7 +160,7 @@ preguntas:
     respuestas_incorrectas:
       - "FLAC"
       - "OGG"
-    ocultas_opcion_ninguna_de_las_anteriores: true
+    ocultar_opcion_ninguna_de_las_anteriores: true
 
   - descripcion: El audio estereo implica
     respuestas_correctas:

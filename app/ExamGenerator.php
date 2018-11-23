@@ -110,19 +110,21 @@ class ExamGenerator {
                 $nroPreguntaDesde1 = $nroPregunta + 1;
                 $answers = "";
                 foreach ($pregunta['respuestas'] as $nroRespuesta => $respuesta) {
-
+                    $letraRespuesta = chr(ord('a')+$nroRespuesta);
                     $answers .= "
-                        <div class=\"option\">{$nroRespuesta}) {$respuesta}</div>";
+                        <div class=\"option\">{$letraRespuesta}) {$respuesta}</div>";
                 }
                 if (empty($pregunta['ocultar_opcion_todas_las_anteriores'])){
                     $nroRespuesta++;
+                    $letraRespuesta = chr(ord('a')+$nroRespuesta);
                     $answers .= "
-                        <div class=\"option\">{$nroRespuesta}) {$todasLasAnteriores}</div>";
+                        <div class=\"option\">{$letraRespuesta}) {$todasLasAnteriores}</div>";
                 }
                 if (empty($pregunta['ocultar_opcion_ninguna_de_las_anteriores'])){
                     $nroRespuesta++;
+                    $letraRespuesta = chr(ord('a')+$nroRespuesta);
                     $answers .= "
-                        <div class=\"option\">{$nroRespuesta}) {$ningunaDeLasAnteriores}</div>";
+                        <div class=\"option\">{$letraRespuesta}) {$ningunaDeLasAnteriores}</div>";
                 }
                 $question = "
                     <div class=\"question\">

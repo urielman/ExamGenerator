@@ -75,10 +75,36 @@
                 </div>
 
                 <div class="links">
-                    <button onClick="">Generar exámen</button>
+                    <form action="{{ url('/') }}" method="get" target="_blank">
+                        Cantidad de temas:<input type="number" name="temas" min="1" max="5"><br>
+                        Cantidad de preguntas: <input type="number" name="preguntas" min="1" max="40"><br>
+                        <input type="submit" value="Generar exámen">
+                        </form>
+                 <!--   <button onClick="">Generar exámen</button>  -->
                     <a href="{{ url('examen') }}">Examen generado</a>
                 </div>
             </div>
+            <?php
+                if (isset($_GET['temas']) && isset($_GET['preguntas'])) {
+                    require_once __DIR__.'/../../../app/ExamGenerator.php';
+                    require_once __DIR__.'/../../../app/Questions.php';
+    
+                    $examGenerator = new Generator\ExamGenerator;
+    
+                    $examGenerator->loadQuestions(__DIR__.'/../../../resources/yaml/preguntas.yml');
+                    
+                    // despues esta variable se podria usar para pasarsela como argumento
+                    // a una funcion JavaScript que se ejecute cuando se presione el
+                    // boton "Generar exámen" del Html, y entonces el JS toma el argumento
+                    // y hace un getFileByName('multiplechoice').write(examenHtml) ponele
+                    $examGenerator->setCantidadTemas($_GET['temas']);
+                    $examGenerator->saveQuestions(
+                        __DIR__.'/../../../public/testing',
+                        '.html'
+                    );
+                }
+            ?>    
+            
         </div>
     </body>
 </html>

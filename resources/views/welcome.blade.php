@@ -3,6 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        
+        <!-- Bootstrap -->
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
         <title>ExamGenerator</title>
 
@@ -76,12 +82,25 @@
 
                 <div class="links">
                     <form action="{{ url('/') }}" method="get" target="_blank">
-                        Cantidad de temas:<input type="number" name="temas" min="1" max="5"><br>
-                        Cantidad de preguntas: <input type="number" name="preguntas" min="1" max="40"><br>
-                        <input type="submit" value="Generar exámen">
-                        </form>
+                        <div class="form-group">
+                            <label for="exampleSelect2">Cantidad de temas:</label>
+                            <select class="form-control" name="temas" id="exampleSelect1">                                        
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-number-input" >Cantidad de preguntas:</label>
+                            <input class="form-control" type="number" value="10" name="preguntas" id="example-number-input">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generar Examenes</button>
+                    </form>
                  <!--   <button onClick="">Generar exámen</button>  -->
-                    <a href="{{ url('examen') }}">Examen generado</a>
+                    <br><br>
+                    <a href="{{ url('examen') }}">Examen Ejemplo</a>
                 </div>
             </div>
             <?php

@@ -58,16 +58,3 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
-
-/* require_once __DIR__.'/../app/ExamGenerator.php';
-require_once __DIR__.'/../app/Questions.php';
-
-$examGenerator = new Generator\ExamGenerator;
-
-$examGenerator->loadQuestions(__DIR__.'/../resources/yaml/preguntas.yml');
-
-$examGenerator->setCantidadTemas(2);
-$examGenerator->saveQuestions(
-    __DIR__.'/testing',
-    '.html'
-); */

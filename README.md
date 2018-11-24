@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/urielman/ExamGenerator.svg?branch=master)](https://travis-ci.org/urielman/ExamGenerator) [![Coverage Status](https://coveralls.io/repos/github/urielman/ExamGenerator/badge.svg?branch=master)](https://coveralls.io/github/urielman/ExamGenerator?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/urielman/ExamGenerator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/urielman/ExamGenerator/?branch=master)
 #### Usar ExamGenerator
 Una vez descargado el repositorio, ejecutar `composer install` para instalar las dependencias (como Symfony Yaml). Para visualizar Laravel, hostear el repositorio en un servidor local como puede ser con Xampp, y dirigirse a `./public`, el homepage de ExamGenerator.
 

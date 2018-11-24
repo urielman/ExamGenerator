@@ -68,14 +68,20 @@ class ExamGenerator {
         else {
             mkdir($filePath . '/originales', 0777, true);
         } */
-        if (is_dir($filePath . '/examenes')) {
-            // borrar contenido de la carpeta (por si hay examenes viejos)
+        $filePathOriginales = $filePath . '/originales';
+        $filePathExamenes = $filePath . '/examenes';
+
+        // borrar contenido de la carpeta (por si hay examenes viejos)
+        if (is_dir($filePathExamenes)) {
+            $files = glob($filePathExamenes . '/*'); //obtenemos todos los nombres de los ficheros
+            foreach($files as $file){
+                if(is_file($file))
+                unlink($file); //elimino el fichero
+            }
         }
         else {
             mkdir($filePath . '/examenes', 0777, true);
         }
-        $filePathOriginales = $filePath . '/originales';
-        $filePathExamenes = $filePath . '/examenes';
         for ($nroTema = 1; $nroTema <= $this->cantidadTemas ; ++$nroTema) {
             $this->questions->mezclar();
             $preguntas = $this->questions->getPreguntas();

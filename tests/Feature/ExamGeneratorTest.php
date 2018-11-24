@@ -15,7 +15,7 @@ class ExamGeneratorTest extends TestCase
         $examGenerator = new ExamGenerator;
         $questions = new Questions;
 
-        $ymlFile = "__DIR__/../../../resources/yaml/preguntas.yml";
+        $ymlFile = './resources/yaml/preguntas.yml';
         $yml = Yaml::parseFile($ymlFile);
 
         foreach ($yml['preguntas'] as $pregunta) {

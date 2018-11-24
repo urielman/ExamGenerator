@@ -120,10 +120,7 @@
                     $examGenerator->setCantidadTemas($_GET['temas']);
                     $examGenerator->setCantidadDePreguntas($_GET['preguntas']);
 
-                    $examGenerator->saveQuestions(
-                        __DIR__.'/../../../public/testing',
-                        '.html'
-                    );
+                    $examGenerator->saveQuestions();
                 }
             ?>    
             

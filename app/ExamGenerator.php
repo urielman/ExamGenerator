@@ -61,14 +61,8 @@ class ExamGenerator {
      *
      * @return string
      */
-    public function saveQuestions(string $filePath, string $fileExtension = '.html') {
-        /* if (is_dir($filePath . '/originales')) {
-            // borrar contenido de la carpeta (por si hay examenes viejos)
-        }
-        else {
-            mkdir($filePath . '/originales', 0777, true);
-        } */
-        $filePathOriginales = $filePath . '/originales';
+    public function saveQuestions(string $filePath = ".", string $fileExtension = '.html') {
+
         $filePathExamenes = $filePath . '/examenes';
 
         // borrar contenido de la carpeta (por si hay examenes viejos)
@@ -85,10 +79,6 @@ class ExamGenerator {
         for ($nroTema = 1; $nroTema <= $this->cantidadTemas ; ++$nroTema) {
             $this->questions->mezclar();
             $preguntas = $this->questions->getPreguntas();
-            /* file_put_contents(
-                $filePathOriginales . "/Tema{$nroTema}" . $fileExtension,
-                $this->template($preguntas, $nroTema, $this->nroEvaluacion)
-            ); */
 
             file_put_contents(
                 $filePathExamenes . "/RespuestasTema{$nroTema}" . $fileExtension,
@@ -140,7 +130,7 @@ class ExamGenerator {
      * @return string
      */
     private function template(array $preguntas, $tema = NULL, int $nroEvaluacion = 0, string $modo = '', $cantidadDePreguntas) : string {
-        $esOriginal = !in_array($modo, ['E', 'examen', 'Examen', 'A', 'alumno', 'Alumno']);
+        $esOriginal = !in_array($modo, ['Examen']);
         $titulo = ($nroEvaluacion == 0) ? "Examen" : "Examen {$nroEvaluacion}";
         $titulo .= ($esOriginal) ? " - Respuestas" : " - Alumno";
         $titulo .= ($tema == NULL) ? "" : " - Tema {$tema}";

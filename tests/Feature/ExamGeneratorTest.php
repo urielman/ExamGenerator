@@ -40,31 +40,25 @@ class ExamGeneratorTest extends TestCase
         $examGenerator->loadQuestions($ymlFile);
         $examGenerator->setCantidadTemas(2);
         $examGenerator->setCantidadDePreguntas(15);
-        $examGenerator->saveQuestions(
-            __DIR__.'./testing',
-            '.html'
-        );
-        
-        $filecount = 0;
-        $files = glob("./tests/Feature/testing/examenes/*");
+        $examGenerator->saveQuestions();
+
+        $fileCount = 0;
+        $files = glob("./examenes/*");
         if ($files) {
-            $filecount = count($files);
+            $fileCount = count($files);
         }
 
-        $this->AssertEquals($filecount, 4);
+        $this->AssertEquals($fileCount, 4);
 
 
         $examGenerator->setCantidadTemas(1);
-        $examGenerator->saveQuestions(
-            __DIR__.'./testing',
-            '.html'
-        );
+        $examGenerator->saveQuestions();
 
-        $filecount = 0;
-        $files = glob("./tests/Feature/testing/examenes/*");
+        $fileCount = 0;
+        $files = glob("./examenes/*");
         if ($files) {
-            $filecount = count($files);
+            $fileCount = count($files);
         }
-        $this->AssertEquals($filecount, 2);
+        $this->AssertEquals($fileCount, 2);
     }
 }

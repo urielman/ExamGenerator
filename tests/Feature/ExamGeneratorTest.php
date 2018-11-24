@@ -44,7 +44,8 @@ class ExamGeneratorTest extends TestCase
             __DIR__.'./testing',
             '.html'
         );
-
+        
+        $filecount = 0;
         $files = glob("./tests/Feature/testing/examenes/*");
         if ($files) {
             $filecount = count($files);

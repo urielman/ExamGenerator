@@ -8,9 +8,9 @@ class Questions {
     protected $preguntas = array();
     protected $cantidad = 0;
 
-
-    /* protected $ordenOriginal = array();
-    protected $orden = array(); */
+    public function getPreguntasOriginales(){
+        return $this->preguntasOriginales;
+    }
 
     public function vaciar() {
         $this->preguntasOriginales = array();

@@ -16,11 +16,21 @@ class ExamGenerator {
         $this->questions = new Questions();
     }
 
-    public function setCantidadTemas(int $cantidadTemas) { $this->cantidadTemas = $cantidadTemas; }
+    public function setCantidadTemas(int $cantidadTemas) { 
+        $this->cantidadTemas = $cantidadTemas; 
+    }
 
-    public function setNroEvaluacion(int $nroEvaluacion) { $this->nroEvaluacion = $nroEvaluacion; }
+    public function setNroEvaluacion(int $nroEvaluacion) { 
+        $this->nroEvaluacion = $nroEvaluacion; 
+    }
 
-    public function setCantidadDePreguntas(int $cantidadDePreguntas) { $this->cantidadDePreguntas = $cantidadDePreguntas; }
+    public function setCantidadDePreguntas(int $cantidadDePreguntas) { 
+        $this->cantidadDePreguntas = $cantidadDePreguntas; 
+    }
+
+    public function getQuestions(){
+        return $this->questions;
+    }
 
     /**
      * Carga las preguntas desde un archivo Yaml y

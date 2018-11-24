@@ -32,16 +32,7 @@ class Questions {
         $pregunta['ocultar_opcion_todas_las_anteriores'] = !empty($pregunta['ocultar_opcion_todas_las_anteriores']);
         array_push($this->preguntasOriginales, $pregunta);
 
-        /* $ordenRespuestas = array();
-        foreach ($pregunta['respuestas'] as $i => $respuestas) {
-            array_push($ordenRespuestas, $i + 1);
-        }
-        /* for ($i = 1; i <= count($pregunta['respuestas']); ++$i) {
-            array_push($ordenRespuestas, $i);
-        } */
         ++$this->cantidad;
-        /* $this->ordenOriginal[$this->cantidad] = $ordenRespuestas;
-        $this->orden[$this->cantidad] = $ordenRespuestas; */
     }
     
     /**

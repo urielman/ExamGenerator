@@ -10,24 +10,12 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 class ExamGeneratorTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testBasicTest()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
     public function testLoadQuestions()
     {
         $examGenerator = new ExamGenerator;
         $questions = new Questions;
 
-        $ymlFile = "/../../resources/yaml/preguntas.yml";
+        $ymlFile = "/../../../resources/yaml/preguntas.yml";
         $yml = Yaml::parseFile($ymlFile);
 
         foreach ($yml['preguntas'] as $pregunta) {

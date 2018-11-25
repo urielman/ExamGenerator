@@ -1,16 +1,21 @@
 [![Build Status](https://travis-ci.org/urielman/ExamGenerator.svg?branch=master)](https://travis-ci.org/urielman/ExamGenerator) [![Coverage Status](https://coveralls.io/repos/github/urielman/ExamGenerator/badge.svg?branch=master)](https://coveralls.io/github/urielman/ExamGenerator?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/urielman/ExamGenerator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/urielman/ExamGenerator/?branch=master)
+
+#### Qué es ExamGenerator:
+- Es un generador de examenes. A partir de un archivo con preguntas y respuestas, crea la cantidad deseada de Temas y de Preguntas en cada examen. Cada Tema tiene ademas su version Resuelta, para facilitar su correccion.
+
 #### Usar ExamGenerator
 Una vez descargado el repositorio, ejecutar `composer install` para instalar las dependencias (como Symfony Yaml). Para visualizar Laravel, hostear el repositorio en un servidor local como puede ser con Xampp, y dirigirse a `./public`, el homepage de ExamGenerator.
+Colocar un archivo .yml con las preguntas y respuestas en el directorio ./resources/yaml/. El formato de este archivo debe ser similar al archivo ejemplo que se encuentra en el directorio mencionado.
+Los examenes generados se encontraran en el directorio ./public/examenes/.
+
+#### Consignas del trabajo:
+- Dada una lista de preguntas generar multiples temas.
+- Mezclar preguntas y opciones, guardar las correctas.
+- Generar dos versiones del examen. Una para el Profesor con las respuestas correctas marcadas, y las de examen para uso del alumno.
+- Hacer tests  e incluir coveralls.
 
 #### Objetivo del Trabajo:
 Recrear el sistema del profesor para hacer pruebas desde cero.
-
-#### Puntos clave:
-- Dada una lista de preguntas generar multiples temas.
-- Mezclar preguntas y opciones, guardar las correctas.
-- Cada tema tiene una opcion correcta, las opciones "todas" y "ninguna" son opcionales, de haber dos opciones correctas generar una - opcion extra que incluya a ambas.
-- Generar dos versiones del examen, la original con la correcta marcada y las de examen para uso del alumno.
-- Hacer tests  e incluir coveralls.
 
 #### Herramientas sugeridas:
 - PHP -> Codigo de opciones, mezclar, reconocer correctas, interactuar con html

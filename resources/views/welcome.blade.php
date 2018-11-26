@@ -96,11 +96,11 @@
                             <label for="example-number-input" >Cantidad de preguntas:</label>
                             <input class="form-control" type="number" value="10" name="preguntas" id="example-number-input">
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="exampleInputFile">Ingrese el archivo:</label>
                             <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
                             <small id="fileHelp" class="form-text text-muted">El archivo debe tener la extension .yml, conteniendo las preguntas del Examen.</small>
-                        </div>
+                        </div> --}}
                         <button type="submit" class="btn btn-primary">Generar Examenes</button>
                     </form>
                  <!--   <button onClick="">Generar exámen</button>  -->

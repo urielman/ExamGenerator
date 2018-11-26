@@ -1,12 +1,13 @@
 [![Build Status](https://travis-ci.org/urielman/ExamGenerator.svg?branch=master)](https://travis-ci.org/urielman/ExamGenerator) [![Coverage Status](https://coveralls.io/repos/github/urielman/ExamGenerator/badge.svg?branch=master)](https://coveralls.io/github/urielman/ExamGenerator?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/urielman/ExamGenerator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/urielman/ExamGenerator/?branch=master)
 
-#### Qué es ExamGenerator:
-- Es un generador de examenes. A partir de un archivo con preguntas y respuestas, crea la cantidad deseada de Temas y de Preguntas en cada examen. Cada Tema tiene ademas su version Resuelta, para facilitar su correccion.
+## Qué es ExamGenerator
+Es un generador de examenes. A partir de un archivo con preguntas y respuestas, crea la cantidad deseada de Temas y de Preguntas en cada examen. Cada Tema tiene ademas su version Resuelta, para facilitar su correccion.
 
-#### Usar ExamGenerator
+## Usar ExamGenerator
 Una vez descargado el repositorio, ejecutar `composer install` para instalar las dependencias (como Symfony Yaml). Para visualizar Laravel, hostear el repositorio en un servidor local como puede ser con Xampp, y dirigirse a `./public`, el homepage de ExamGenerator.
-Colocar un archivo .yml con las preguntas y respuestas en el directorio ./resources/yaml/. El formato de este archivo debe ser similar al archivo ejemplo que se encuentra en el directorio mencionado.
-Los examenes generados se encontraran en el directorio ./public/examenes/.
+
+Colocar un archivo .yml con las preguntas y respuestas en el directorio `./resources/yaml/`. El formato de este archivo debe ser similar al archivo ejemplo que se encuentra en el directorio mencionado.
+Los examenes generados se encontraran en el directorio `./public/examenes/`.
 
 #### Consignas del trabajo:
 - Dada una lista de preguntas generar multiples temas.
@@ -36,7 +37,7 @@ Recrear el sistema del profesor para hacer pruebas desde cero.
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## About Laravel
+#### About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
 
@@ -50,20 +51,20 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
 
-## Learning Laravel
+#### Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
 
 If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
 
-## Contributing
+#### Contributing
 
 Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Security Vulnerabilities
+#### Security Vulnerabilities
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+#### License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

@@ -4,7 +4,14 @@
 Es un generador de examenes. A partir de un archivo con preguntas y respuestas, crea la cantidad deseada de Temas y de Preguntas en cada examen. Cada Tema tiene ademas su version Resuelta, para facilitar su correccion.
 
 ## Usar ExamGenerator
-Una vez descargado el repositorio, ejecutar `composer install` para instalar las dependencias (como Symfony Yaml). Para visualizar Laravel, hostear el repositorio en un servidor local como puede ser con Xampp, y dirigirse a `./public`, el homepage de ExamGenerator.
+Una vez descargado el repositorio, ejecutar `composer install` para instalar las dependencias (como Symfony Yaml). 
+
+Luego ejecutar el siguiente comando para crear el archivo .env (environment)
+`php -r "copy('.env.example', '.env');"`
+
+Por ultimo, ejecutar el comando `php artisan key:generate`
+
+Para visualizar Laravel, hostear el repositorio en un servidor local como puede ser con Xampp, y dirigirse a `./public`, el homepage de ExamGenerator. Si desea usar el servidor de desarrollo de PHP ejecutar `php artisan serve`. Por default el server va a escuchar en el puerto 8000. Para cambiarlo usar el comando `php artisan serve --port=8080`
 
 Colocar un archivo .yml con las preguntas y respuestas en el directorio `./resources/yaml/`. El formato de este archivo debe ser similar al archivo ejemplo que se encuentra en el directorio mencionado.
 Los examenes generados se encontraran en el directorio `./public/examenes/`.
